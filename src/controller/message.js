@@ -10,7 +10,13 @@ exports.insertMessage = (request, response, next) => {
     );
     return;
   } else {
-    next(ApiError.created('The message has been sent'));
+    messagesData.push({ id: messagesData.length + 1, message: message });
+    console.log(messagesData.length);
+    next(
+      ApiError.created('The message has been created', {
+        messageId: messagesData.length,
+      })
+    );
   }
 };
 
