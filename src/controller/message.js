@@ -43,3 +43,45 @@ exports.getMessage = (request, response, next) => {
     next(ApiError.notFound('The message was not found'));
   }
 };
+
+exports.editMessage = (request, response, next) => {
+  const { messageId } = request.params;
+  const { message } = request.body;
+
+  if (!messageId) {
+    next(ApiError.emptyFieldsOrParameters('The id of the message is required'));
+    return;
+  } else {
+    const gettingMessage = messagesData.filter(
+      (message) => message.id == messageId
+    );
+    gettingMessage[0].message = message;
+
+    next(ApiError.updated('The message has been updated'));
+  }
+};
+
+exports.removeMessage = (request, response, next) => {
+  const { messageId } = request.params;
+
+  if (!messageId) {
+    next(ApiError.emptyFieldsOrParameters('The id of the message is required'));
+    return;
+  } else {
+    let index = messagesData.findIndex(
+      (messageIndex) => messageIndex.id == messageId
+    );
+
+    if (index == 0) {
+      messagesData.shift();
+    } else {
+      messagesData.splice(
+        messagesData.findIndex((messageIndex) => messageIndex.id == messageId),
+        1
+      );
+    }
+
+    next(ApiError.deleted('The message has been deleted'));
+    return;
+  }
+};

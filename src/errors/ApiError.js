@@ -43,6 +43,23 @@ class ApiError {
       payload: '',
     });
   }
+
+  static updated(message) {
+    return new ApiError(200, {
+      status: 'Success',
+      message: message,
+      payload: '',
+    });
+  }
+
+  static deleted(message) {
+    return new ApiError(200, {
+      status: 'Success',
+      message: message,
+      payload: '',
+    });
+  }
+
   static internalServerError(message, payload) {
     return new ApiError(500, {
       status: 'FAILURE',
