@@ -1,5 +1,6 @@
 const ApiError = require('../errors/ApiError');
-const messagesData = require('./mock-messages.json');
+
+const messagesData = [];
 
 exports.insertMessage = (request, response, next) => {
   const { message } = request.body;
@@ -11,7 +12,6 @@ exports.insertMessage = (request, response, next) => {
     return;
   } else {
     messagesData.push({ id: messagesData.length + 1, message: message });
-    console.log(messagesData.length);
     next(
       ApiError.created('The message has been created', {
         messageId: messagesData.length,
